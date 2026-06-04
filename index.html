@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa de Oportunidades con IA - Publica ideas de negocio locales</title>
+  <!-- Google Fonts - Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Supabase Client Library CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>Mapa de Oportunidades con IA</h1>
+      <p>Explora y publica problemas urbanos detectados junto a propuestas de soluciones innovadoras basadas en Inteligencia Artificial. ¡Todo 100% público y sincronizado!</p>
+    </header>
+
+    <!-- Main Grid Dashboard -->
+    <div class="dashboard-grid">
+      
+      <!-- Left Panel: Create Opportunity Form -->
+      <aside class="glass-panel" id="publish-card">
+        <h2 class="panel-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Publicar Oportunidad
+        </h2>
+        
+        <form id="opportunity-form">
+          <div class="form-group">
+            <label for="opp-name">Nombre de la Oportunidad</label>
+            <input type="text" id="opp-name" class="form-control" placeholder="Ej. Delivery Drone Local, Guía de Turismo IA..." required>
+          </div>
+          
+          <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div>
+              <label for="opp-city">Ciudad</label>
+              <input type="text" id="opp-city" class="form-control" placeholder="Ej. Madrid, Lima..." required>
+            </div>
+            <div>
+              <label for="opp-country">País</label>
+              <input type="text" id="opp-country" class="form-control" placeholder="Ej. España, Perú..." required>
+            </div>
+          </div>
+          
+          <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div>
+              <label for="opp-category">Categoría</label>
+              <select id="opp-category" class="form-control" required>
+                <option value="" disabled selected>Elige una...</option>
+                <option value="E-Commerce">E-Commerce</option>
+                <option value="Turismo">Turismo</option>
+                <option value="Educación">Educación</option>
+                <option value="Logística">Logística</option>
+                <option value="Salud">Salud</option>
+                <option value="Finanzas">Finanzas</option>
+                <option value="Agro">Agro</option>
+                <option value="Construcción">Construcción</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <div>
+              <label for="opp-potential">Potencial</label>
+              <select id="opp-potential" class="form-control" required>
+                <option value="" disabled selected>Elige uno...</option>
+                <option value="Alto">Alto 🌟</option>
+                <option value="Medio">Medio ⚡</option>
+                <option value="Bajo">Bajo 💤</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="opp-problem">Problema Local Detectado</label>
+            <textarea id="opp-problem" class="form-control" placeholder="¿Qué problema real o ineficiencia se vive en la ciudad?" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="opp-ai-solution">Solución con Inteligencia Artificial</label>
+            <textarea id="opp-ai-solution" class="form-control" placeholder="¿Cómo la IA resuelve este problema de forma viable?" required></textarea>
+          </div>
+          
+          <button type="submit" class="btn-primary" id="submit-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            Publicar en el Mapa
+          </button>
+        </form>
+      </aside>
+
+      <!-- Right Panel: Filters and Feed -->
+      <main class="feed-section">
+        <div class="feed-header">
+          
+          <!-- Filter Controls -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <label for="filter-city">Filtrar Ciudad</label>
+              <input type="text" id="filter-city" class="form-control" placeholder="Ej. Lima, Madrid...">
+            </div>
+            <div class="filter-group">
+              <label for="filter-country">Filtrar País</label>
+              <input type="text" id="filter-country" class="form-control" placeholder="Ej. Perú, España...">
+            </div>
+            <div class="filter-group">
+              <label for="filter-category">Categoría</label>
+              <select id="filter-category" class="form-control">
+                <option value="">Todas las categorías</option>
+                <option value="E-Commerce">E-Commerce</option>
+                <option value="Turismo">Turismo</option>
+                <option value="Educación">Educación</option>
+                <option value="Logística">Logística</option>
+                <option value="Salud">Salud</option>
+                <option value="Finanzas">Finanzas</option>
+                <option value="Agro">Agro</option>
+                <option value="Construcción">Construcción</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            <button id="clear-filters-btn" class="btn-clear" title="Limpiar todos los filtros">
+              Limpiar
+            </button>
+          </div>
+          
+        </div>
+
+        <!-- Feed List -->
+        <div id="opportunities-container" class="opportunities-list">
+          <div class="loading-indicator">
+            <div class="loading-spinner"></div>
+            <p>Conectando con Supabase y cargando oportunidades...</p>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Center -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Main JavaScript App -->
+  <script src="app.js"></script>
+</body>
+</html>
