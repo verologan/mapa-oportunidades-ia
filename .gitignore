@@ -1,0 +1,62 @@
+# Archivos del Sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.directory
+
+# IDE y Editores
+.vscode/
+.idea/
+.sublime-project
+.sublime-workspace
+*.swp
+*.swo
+*~
+.vim/
+
+# Archivos Temporales
+*.tmp
+*.temp
+*.bak
+*.log
+.cache/
+temp/
+
+# Caché
+.parcel-cache/
+.cache/
+dist/
+
+# Node
+node_modules/
+package-lock.json
+npm-debug.log
+yarn-error.log
+
+# Python (si se integra backend)
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# Archivos de Configuración Local
+.env
+.env.local
+config.local.js
+
+# API Keys y Secrets
+.env.secret
+secrets/
+
+# Datos Sensibles
+data/private/
+credentials.json
+
+# Archivos de Backup
+*.backup
+*.old
+backups/
